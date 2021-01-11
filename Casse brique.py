@@ -5,6 +5,8 @@ from pygame.locals import *
 
 hauteur = 800
 largeur = 600
+
+vie = 4
 briquel1 = []
 briquel2 = []
 briquel3 = []
@@ -15,7 +17,8 @@ balls = []
 
 def setup():
     print("setup")
-    global briquel1, briquel2, briquel3, briquel4, x, y, l ,h, xd, yd,balls, raquette,X,Y,X1,Y1,L,H
+    global score,briquel1, briquel2, briquel3, briquel4, x, y, l ,h, xd, yd,balls, raquette,X,Y,X1,Y1,L,H
+
     core.WINDOW_SIZE = [largeur, hauteur]
     core.fps=30
 
@@ -65,6 +68,9 @@ def setup():
     xd = random.uniform(-10, 10)
     yd = random.uniform(-10, 10)
     balls = balls + [X, Y, xd, yd,]
+    score = 0
+
+
 
 
 def Spring(b1,b2,k,lo):
@@ -84,7 +90,7 @@ def Spring(b1,b2,k,lo):
 
 
 def run():
-    print("Run")
+    global score
 
     for q in briquel1:
 
@@ -101,7 +107,7 @@ def run():
 
 
     for r in raquette:
-        print(r)
+
         pygame.draw.rect(core.screen, (255, 0, 0), (r[0], r[1], r[2], r[3]))
 
     pygame.draw.circle(core.screen, (36, 210, 78), (balls[0], balls[1]), 20)
@@ -113,9 +119,25 @@ def run():
             balls[2] = -balls[2]
     if balls[1] < 20:
             balls[3] = -balls[3]
+
+
+
     if balls[1] > hauteur :
         balls[1] = 250
         balls[0] = 250
+        score = score +1
+        print("il vous reste", vie - score, "vie(s)")
+
+
+    if vie - score == 0 :
+        print("game over")
+        exit()
+
+
+
+
+
+
 
 
     for q4 in briquel4 :
@@ -151,7 +173,6 @@ def run():
     if core.getMouseLeftClick() is not None:
         if core.getMouseLeftClick()[0] < largeur - r[2] :
             r[0]=core.getMouseLeftClick()[0]
-
 
 
 core.main(setup, run)
