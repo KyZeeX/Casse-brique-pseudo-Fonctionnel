@@ -2,7 +2,7 @@ import random
 import pygame
 import core
 from pygame.locals import *
-
+pygame.init()
 hauteur = 800
 largeur = 600
 
@@ -16,13 +16,12 @@ balls = []
 
 
 def setup():
+    pygame.init()
     print("setup")
-    global score,briquel1, briquel2, briquel3, briquel4, x, y, l ,h, xd, yd,balls, raquette,X,Y,X1,Y1,L,H
+    global score,briquel1, briquel2, briquel3, briquel4, x, y, l, h, xd, yd, balls, raquette,X,Y,X1,Y1,L,H
 
     core.WINDOW_SIZE = [largeur, hauteur]
     core.fps=30
-
-
 
     for b1 in range(0,10) :
 
@@ -31,36 +30,30 @@ def setup():
         x = 1
         y = 1
         briquel1 = briquel1 + [[x*(b1-1)+(l*b1), y, l, h,]]
-
     for b2 in range(0, 10):
             l = 60
             h = 20
             x = 1
             y = 1
             briquel2 = briquel2 + [[x * (b2 - 1) + (l * b2), y*h+2, l, h, ]]
-
     for b3 in range(0, 10):
             l = 60
             h = 20
             x = 1
             y = 1
             briquel3 = briquel3 + [[x * (b3 - 1) + (l * b3), 2*y*h+3, l, h, ]]
-
     for b4 in range(0, 10):
             l = 60
             h = 20
             x = 1
             y = 1
             briquel4 = briquel4 + [[x * (b4 - 1) + (l * b4), 3*y*h+4, l, h, ]]
-
-
     for i in range(0,1):
         L=80
         H=20
         XR=260
         YR=700
         raquette = raquette + [[XR,YR,L,H]]
-
 
     X = 300
     Y = 550
@@ -69,9 +62,7 @@ def setup():
     yd = random.uniform(-10, 10)
     balls = balls + [X, Y, xd, yd,]
     score = 0
-
-
-
+    print("Une partie débute, vous avez", vie,"pour terminer le casse brique")
 
 def Spring(b1,b2,k,lo):
     u = pygame.Vector2(b2[0] - b1[0], b2[1] - b1[1])
@@ -86,8 +77,6 @@ def Spring(b1,b2,k,lo):
     Fy = u[1] * k * abs(distanceEntreB1etB2  - lo)
 
     return [Fx,Fy]
-
-
 
 def run():
     global score
@@ -105,7 +94,6 @@ def run():
     for q4 in briquel4:
         pygame.draw.rect(core.screen, (255, 0, 0), (q4[0], q4[1], q4[2], q4[3]))
 
-
     for r in raquette:
 
         pygame.draw.rect(core.screen, (255, 0, 0), (r[0], r[1], r[2], r[3]))
@@ -120,25 +108,15 @@ def run():
     if balls[1] < 20:
             balls[3] = -balls[3]
 
-
-
     if balls[1] > hauteur :
         balls[1] = 250
         balls[0] = 250
         score = score +1
         print("il vous reste", vie - score, "vie(s)")
 
-
     if vie - score == 0 :
         print("game over")
         exit()
-
-
-
-
-
-
-
 
     for q4 in briquel4 :
         if q4[0] < balls[0] < q4[0] + l and q4[1] < balls[1] - 20 < q4[1]+h :
@@ -164,15 +142,8 @@ def run():
     if r[1] < balls[1] + 20 < r[1] + r[3] and r[0] < balls[0] < r[0] + r[2] :
             balls[3] = -balls[3]
 
-
-
-
-
-
-
     if core.getMouseLeftClick() is not None:
         if core.getMouseLeftClick()[0] < largeur - r[2] :
             r[0]=core.getMouseLeftClick()[0]
-
 
 core.main(setup, run)
