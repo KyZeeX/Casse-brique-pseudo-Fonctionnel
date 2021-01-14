@@ -62,7 +62,7 @@ def setup():
     yd = random.uniform(-10, 10)
     balls = balls + [X, Y, xd, yd,]
     score = 0
-    print("Une partie débute, vous avez", vie,"pour terminer le casse brique")
+    print("Une partie débute, vous avez", vie,"vie(s) pour terminer le casse brique")
 
 def Spring(b1,b2,k,lo):
     u = pygame.Vector2(b2[0] - b1[0], b2[1] - b1[1])
@@ -79,7 +79,7 @@ def Spring(b1,b2,k,lo):
     return [Fx,Fy]
 
 def run():
-    global score
+    global score,q1,q2,q3,q4
 
     for q in briquel1:
 
@@ -123,6 +123,9 @@ def run():
             balls[3] = - balls[3]
             briquel4.remove(q4)
 
+
+
+
     for q3 in briquel3:
         if q3[0] < balls[0] < q3[0] + l and q3[1] < balls[1] - 20 < q3[1] + h:
             balls[3] = - balls[3]
@@ -138,10 +141,21 @@ def run():
             balls[3] = - balls[3]
             briquel1.remove(q1)
 
+    if briquel1 is not None and not briquel1 and briquel2 is not None and not briquel2 and briquel3 is not None and not briquel3 and briquel4 is not None and not briquel4:
+        print("bravo tu as gagné")
+        exit()
 
-    if r[1] < balls[1] + 20 < r[1] + r[3] and r[0] < balls[0] < r[0] + r[2] :
+
+    if r[1] < balls[1] + 20 < r[1] + r[3] and r[0] <= balls[0] < r[0] + 20 :
+            balls[3] = -balls[3]
+            balls[2] = - balls[2]
+
+    if r[1] < balls[1] + 20 < r[1] + r[3] and r[0] +20 <= balls[0] < r[0] + 60 :
             balls[3] = -balls[3]
 
+    if r[1] < balls[1] + 20 < r[1] + r[3] and r[0] + 60 <= balls[0] < r[0] + r[2]:
+        balls[3] = -balls[3]
+        balls[2] = -balls[2]
     if core.getMouseLeftClick() is not None:
         if core.getMouseLeftClick()[0] < largeur - r[2] :
             r[0]=core.getMouseLeftClick()[0]
